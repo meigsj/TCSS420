@@ -655,6 +655,20 @@ public class Parser {
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
         } else if (have(FOR)) {
+        	mustBe(LPAREN);
+        	JExpression init = expression();
+        	if (have(TERNARY_COLON)) {
+        		JExpression collection = expression();
+        		// TODO ADD return JEnhancedForLoop();
+        	} else {
+	        	mustBe(SEMI);
+	        	JExpression bool_ex = expression();
+	        	mustBe(SEMI);
+	        	JExpression update = expression();
+	        	mustBe(RPAREN);
+	        	JStatement body = statement();
+	        	// TODO ADD return JStandardForLoop();
+        	}
         	// TODO 3.25
         } else if (have(SWITCH)) {
             // TODO 3.26
