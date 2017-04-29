@@ -32,7 +32,7 @@ enum TokenKind {
     UNARY_PLUS("+"), UNARY_MINUS("-"), 
     LT("<"),GE(">="), NOTEQUAL("!="), LOR("||"), 
     BITCOMP("~"),  BITLEFTSHIFT("<<"), BITRIGHTSHIFT(">>"), BITUNSIGNEDRIGHTSHIFT(">>>"),
-    BITWISEAND("&"), BITWISEXOR("^"), BITWISEINOR("|"), 
+    BITWISEAND("&"), BITWISEXOR("^"), BITWISEINOR("|"), TERNARY_QUESTION("?"), TERNARY_COLON(":"), 
     //Added Tokens 2.14
     LONG_LITERAL("<LONG_LITERAL>"), FLOAT_LITERAL("<FLOAT_LITERAL>"), 
     //Added Tokens 2.13
