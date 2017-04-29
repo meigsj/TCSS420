@@ -161,7 +161,7 @@ class JLogicalNotOp extends JUnaryExpression {
         output.addBranchInstruction(GOTO, endIfLabel);
         output.addLabel(elseLabel);
         output.addNoArgInstruction(ICONST_0); // false
-        output.addLabel(endIfLabel);
+        output.addLabel(endIfLabel); //
     }
 
     /**
