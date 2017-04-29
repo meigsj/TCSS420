@@ -1035,7 +1035,7 @@ public class Parser {
     // TODO JDOC
     private JExpression ternaryExpression() {
     	 int line = scanner.token().line();
-         JExpression cond = conditionalAndExpression();
+         JExpression cond = logicalORExpression();
          if (have(TERNARY_QUESTION)) {
         	 JExpression true_val = ternaryExpression();
         	 mustBe(TERNARY_COLON);
