@@ -682,6 +682,9 @@ public class Parser {
         	JStatement catch_block = statement();
         	JStatement finally_block = have(FINALLY) ? statement() : null;
         	// TODO ADD return JTryCatchStatement()
+        } else if (have(THROW)) {
+        	JExpression throw_ex = expression();
+        	// TODO ADD return JThrowStatement();
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
