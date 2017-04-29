@@ -998,7 +998,7 @@ public class Parser {
 
     private JExpression assignmentExpression() {
         int line = scanner.token().line();
-        JExpression lhs = ternaryExpression();
+        JExpression lhs = conditionalAndExpression();
         if (have(ASSIGN)) {
             return new JAssignOp(line, lhs, assignmentExpression());
         } else if (have(PLUS_ASSIGN)) {
@@ -1008,17 +1008,6 @@ public class Parser {
         }
     }
 
-    private JExpression ternaryExpression() {
-    	int line = scanner.token().line();
-    	JExpression lhs = conditionalAndExpression();
-    	if (have(QMARK) && have(COLON)) {
-    		
-    	} else {
-    		return lhs;
-    	}
-    	
-    	
-    }
     /**
      * Parse a conditional-and expression.
      * 

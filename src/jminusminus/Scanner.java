@@ -138,7 +138,7 @@ class Scanner {
                     while (ch != '\n' && ch != EOFCH) {
                         nextCh();
                     }
-                ///////////////////// Added for Exercise 2.10 ////////////////////
+                ///////////////////// Added for Exercise 2.10.0 ////////////////////
                 } else if (ch == '*') {
                 	multiLineComment = true;
                 	while(multiLineComment && ch != EOFCH) {
@@ -270,7 +270,7 @@ class Scanner {
         	return new TokenInfo(BITWISEXOR, line);
         case '>':
             nextCh();
-            if (ch == '=') {
+            if (ch == '=') { 
                 nextCh();
                 return new TokenInfo(GE, line);//Added
             } else if(ch == '>') {
