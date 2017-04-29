@@ -12,7 +12,7 @@ class JTernaryExpression extends JExpression {
 	protected JExpression false_val;
 	
 	
-	public JTernaryExpression(int line, JExpression condition, JExpression true_val, JExpression false_val){
+	public JTernaryExpression(int line, JExpression condition, JExpression true_val, JExpression false_val) {
 		super(line);
 		this.condition=condition;
 		this.true_val=true_val;
@@ -28,6 +28,7 @@ class JTernaryExpression extends JExpression {
      * @return the analyzed (and possibly rewritten) AST subtree.
      */
 
+	@Override
     public JExpression analyze(Context context) {
     	condition = (JExpression) condition.analyze(context);
     	true_val = (JExpression) true_val.analyze(context);
@@ -45,6 +46,7 @@ class JTernaryExpression extends JExpression {
     	return this;	
     }
 	
+    @Override
     public void writeToStdOut(PrettyPrinter p) {
         p.printf("<JTernaryExpression line=\"%d\" type=\"%s\" "
                 + "\n", line(), ((type == null) ? "" : type
@@ -69,7 +71,8 @@ class JTernaryExpression extends JExpression {
         p.printf("</JTernaryExpression>\n");
     }
     
-    public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
+    @Override
+    public void codegen(CLEmitter output) {
         // We should never reach here, i.e., all boolean
         // (including
         // identifier) expressions must override this method.

@@ -1008,6 +1008,19 @@ public class Parser {
         }
     }
 
+    // TODO JDOC
+    private JExpression ternaryExpression() {
+    	 int line = scanner.token().line();
+         JExpression cond = conditionalAndExpression();
+         if (have(TERNARY_QUESTION)) {
+        	 JExpression true_val = ternaryExpression();
+        	 mustBe(TERNARY_COLON);
+        	 return new JTernaryExpression(line, cond, true_val, ternaryExpression());
+         } else {
+        	 return cond;
+         }
+         
+    }
     /**
      * Parse a conditional-and expression.
      * 
