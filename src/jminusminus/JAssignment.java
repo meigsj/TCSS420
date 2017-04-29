@@ -188,6 +188,336 @@ class JPlusAssignOp extends JAssignment {
             ((JLhs) lhs).codegenDuplicateRvalue(output);
         }
         ((JLhs) lhs).codegenStore(output);
+        }       
+}
+
+
+/**
+ * The AST node for a -= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JMinusAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a -= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JMinusAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "-=", lhs, rhs);
     }
 
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a *= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JMultAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a *= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JMultAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "*=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a /= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JDivAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a /= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JDivAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "/=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+    		//TODO CHECK DIV BY ZERO
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a %= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JModAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a %= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JModAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "%=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a &= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JAndAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a &= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JAndAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "&=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a ^= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JXORAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a ^= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JXORAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "^=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a |= expression. A += expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JOrAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a |= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JOrAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "|=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a <<= expression. A <<= expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JBitShiftLeftAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a <<= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JBitShiftLeftAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "<<=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a >>= expression. A >>= expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JBitShiftRightAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a >>= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JBitShiftRightAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, ">>=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
+}
+
+/**
+ * The AST node for a >>>= expression. A >>>= expression has two operands: a lhs and
+ * a rhs.
+ */
+
+class JBitShiftUnsignedRightAssignOp extends JAssignment {
+
+    /**
+     * Construct the AST node for a >>>= expression given its lhs and rhs
+     * operands.
+     * 
+     * @param line
+     *            line in which the assignment expression occurs in the source
+     *            file.
+     * @param lhs
+     *            the lhs operand.
+     * @param rhs
+     *            the rhs operand.
+     */
+
+    public JBitShiftUnsignedRightAssignOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, ">>>=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+
+    }
+    public JExpression analyze(Context context) {
+
+            return this;
+    }   
 }

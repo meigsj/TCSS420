@@ -1053,6 +1053,26 @@ public class Parser {
             return new JAssignOp(line, lhs, assignmentExpression());
         } else if (have(PLUS_ASSIGN)) {
             return new JPlusAssignOp(line, lhs, assignmentExpression());
+        } else if (have(MINUS_ASSIGN)) {
+            return new JMinusAssignOp(line, lhs, assignmentExpression());
+        } else if (have(MULT_ASSIGN)) {
+            return new JMultAssignOp(line, lhs, assignmentExpression());
+        } else if (have(DIV_ASSIGN)) {
+            return new JDivAssignOp(line, lhs, assignmentExpression());
+        } else if (have(MOD_ASSIGN)) {
+            return new JModAssignOp(line, lhs, assignmentExpression());
+        } else if (have(AND_ASSIGN)) {
+            return new JAndAssignOp(line, lhs, assignmentExpression());
+        } else if (have(XOR_ASSIGN)) {
+            return new JXORAssignOp(line, lhs, assignmentExpression());
+        } else if (have(OR_ASSIGN)) {
+            return new JOrAssignOp(line, lhs, assignmentExpression());
+        } else if (have(BITSHIFTLEFT_ASSIGN)) {
+            return new JBitShiftLeftAssignOp(line, lhs, assignmentExpression());
+        } else if (have(BITSHIFTRIGHT_ASSIGN)) {
+            return new JBitShiftRightAssignOp(line, lhs, assignmentExpression());
+        } else if (have(BITUNSIGNEDRIGHTSHIFT_ASSIGN)) {
+            return new JBitShiftUnsignedRightAssignOp(line, lhs, assignmentExpression());
         } else {
             return lhs;
         }
@@ -1079,7 +1099,7 @@ public class Parser {
         boolean more = true;
         JExpression lhs = conditionalAndExpression();//MIGHT BE EQUALITY
         while (more) {
-            if (have(BITWISEOR)) {
+            if (have(BITWISEINOR)) {
                 lhs = new JLogicalOrOp(line, lhs, conditionalAndExpression());//TODO
             }else {
                 more = false;
@@ -1121,7 +1141,7 @@ public class Parser {
         boolean more = true;
         JExpression lhs = bitwiseXORExpression();//MIGHT BE EQUALITY
         while (more) {
-            if (have(BITWISEOR)) {
+            if (have(BITWISEINOR)) {
                 lhs = new JBitwiseOROp(line, lhs, bitwiseXORExpression());//TODO
             }else {
                 more = false;
@@ -1235,7 +1255,7 @@ public class Parser {
         } else if (have(BITRIGHTSHIFT)) {
             return new JBitShiftRightOp(line, lhs, additiveExpression());//TODO
         } else if (have(BITUNSIGNEDRIGHTSHIFT)) {
-            return new JBitShiftRightUnsignedOp(line, lhs, referenceType());//TODO
+            return new JBitShiftRightUnsignedOp(line, lhs, additiveExpression());//TODO
         } else {
             return lhs;
         }
