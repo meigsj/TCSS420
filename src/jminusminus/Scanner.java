@@ -326,6 +326,12 @@ class Scanner {
         case '.':
             nextCh();
             return new TokenInfo(DOT, line);
+        case '?':
+        	nextCh();
+        	return new TokenInfo(QMARK, line);
+        case ':':
+        	nextCh();
+        	return new TokenInfo(COLON, line);
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':

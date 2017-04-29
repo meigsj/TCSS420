@@ -645,6 +645,13 @@ public class Parser {
         int line = scanner.token().line();
         if (see(LCURLY)) {
             return block();
+        } else if (see(LPAREN)) {
+        	JExpression test = parExpression();
+        	mustBe(QMARK);
+        	JStatement consequent = statement();
+        	mustBe(COLON);
+        	JStatement alternate = statement();
+        	return new JIfStatement(line, test, consequent, alternate); // TODO Need to add new class?
         } else if (have(IF)) {
             JExpression test = parExpression();
             JStatement consequent = statement();
@@ -1032,32 +1039,6 @@ public class Parser {
         }
         return lhs;
     }
-    
-    /**
-     * Parse a conditional-and expression.
-     * 
-     * <pre>
-     *   conditionalAndExpression ::= equalityExpression // level 10
-     *                                  |{LOR equalityExpression} 
-     * </pre>
-     * 
-     * @return an AST for a conditionalExpression.
-     */
-
-    private JExpression conditionalAndExpression() {
-        int line = scanner.token().line();
-        boolean more = true;
-        JExpression lhs = equalityExpression();
-        while (more) {
-            if (have(LAND)) {
-                lhs = new JLogicalAndOp(line, lhs, equalityExpression());
-            }else {
-                more = false;
-            }
-        }
-        return lhs;
-    }
-    
 
     /**
      * Parse an equality expression.
@@ -1421,6 +1402,7 @@ public class Parser {
      * 
      * <pre>
      *   literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
+     *             | LONG_LITERAL| FLOAT_LITERAL| DOUBLE_LITERAL
      *             | TRUE        | FALSE        | NULL
      * </pre>
      * 
