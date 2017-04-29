@@ -645,13 +645,6 @@ public class Parser {
         int line = scanner.token().line();
         if (see(LCURLY)) {
             return block();
-        } else if (see(LPAREN)) {
-        	JExpression test = parExpression();
-        	mustBe(QMARK);
-        	JStatement consequent = statement();
-        	mustBe(COLON);
-        	JStatement alternate = statement();
-        	return new JIfStatement(line, test, consequent, alternate); // TODO Need to add new class?
         } else if (have(IF)) {
             JExpression test = parExpression();
             JStatement consequent = statement();
@@ -955,7 +948,7 @@ public class Parser {
      * 
      * @return an AST for a statementExpression.
      */
-
+//PostIncrement, PreDec
     private JStatement statementExpression() {
         int line = scanner.token().line();
         JExpression expr = expression();
@@ -1137,6 +1130,8 @@ public class Parser {
             if (have(STAR)) {
                 lhs = new JMultiplyOp(line, lhs, unaryExpression());
             } else if(have(DIV)) {
+            	//aaaaaaaaaaaaaaaaaaaa
+            } else if(have(MOD)) {
             	//aaaaaaaaaaaaaaaaaaaa
             } else {
                 more = false;
@@ -1402,7 +1397,6 @@ public class Parser {
      * 
      * <pre>
      *   literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
-     *             | LONG_LITERAL| FLOAT_LITERAL| DOUBLE_LITERAL
      *             | TRUE        | FALSE        | NULL
      * </pre>
      * 

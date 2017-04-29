@@ -23,11 +23,16 @@ enum TokenKind {
     SEMI(";"), COMMA(","), DOT("."), IDENTIFIER("<IDENTIFIER>"), 
     INT_LITERAL("<INT_LITERAL>"), CHAR_LITERAL("<CHAR_LITERAL>"), 
     STRING_LITERAL("<STRING_LITERAL>"), 
+    //
+    MINUS_ASSIGN("-="), MULT_ASSIGN("*="), DIV_ASSIGN("/="), MOD_ASSIGN("%="), 
+    AND_ASSIGN("&="), XOR_ASSIGN("^="), OR_ASSIGN("|="), BITSHIFTLEFT_ASSIGN("<<="),
+    BITSHIFTRIGHT_ASSIGN(">>="), BITUNSIGNEDRIGHTSHIFT_ASSIGN(">>>="),
     //Added Tokens 2.11
-    DIV("/"), MOD("%"), UNARY_PLUS("+"),
-    UNARY_MINUS("-"), LT("<"), NOTEQUAL("!="), LOR("||"), BITCOMP("~"), 
-    BITLEFTSHIFT("<<"), BITRIGHTSHIFT(">>"), BITUNSIGNEDRIGHTSHIFT(">>>"),
-    BITWISEAND("&"), BITWISEXOR("^"), BITWISEINOR("|"), GE(">="),
+    DIV("/"), MOD("%"), 
+    UNARY_PLUS("+"), UNARY_MINUS("-"), 
+    LT("<"),GE(">="), NOTEQUAL("!="), LOR("||"), 
+    BITCOMP("~"),  BITLEFTSHIFT("<<"), BITRIGHTSHIFT(">>"), BITUNSIGNEDRIGHTSHIFT(">>>"),
+    BITWISEAND("&"), BITWISEXOR("^"), BITWISEINOR("|"), 
     //Added Tokens 2.14
     LONG_LITERAL("<LONG_LITERAL>"), FLOAT_LITERAL("<FLOAT_LITERAL>"), 
     //Added Tokens 2.13
@@ -37,10 +42,7 @@ enum TokenKind {
     DEFAULT("default"), DO("do"), DOUBLE("double"), ENUM("enum"), FINAL("final"), FINALLY("finally"),
     FLOAT("float"), FOR("for"), GOTO("goto"), IMPLEMENTS("implements"), INTERFACE("interface"), LONG("long"), 
     NATIVE("native"), SHORT("short"), STRICTFP("strictfp"), SWITCH("switch"), SYNCHRONIZED("synchronized"), 
-    THROW("throw"), THROWS("throws"), TRANSIENT("transient"), TRY("try"), VOLATILE("volatile"),
-    //ADDED 3.24
-    QMARK("?"), COLON(":");
-	
+    THROW("throw"), THROWS("throws"), TRANSIENT("transient"), TRY("try"), VOLATILE("volatile");
 
     /** The token's string representation. */
     private String image;

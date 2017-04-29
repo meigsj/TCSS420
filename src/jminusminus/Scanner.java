@@ -151,6 +151,9 @@ class Scanner {
                 	    	}
                 	    }
                 	}
+                } else if(ch == '=') {
+                	nextCh();
+                	return new TokenInfo(DIV_ASSIGN,line);
                 } else {
                 	return new TokenInfo(DIV, line);//Added for Problem 2.11
                 }
@@ -193,7 +196,10 @@ class Scanner {
         	if(ch == '|') { //Added for Problem 2.11
         		nextCh();
         		return new TokenInfo(LOR, line);
-        	} else {
+        	} else if(ch == '=') {
+            	nextCh();
+            	return new TokenInfo(OR_ASSIGN,line);
+            } else {
         		return new TokenInfo(BITWISEINOR, line);
         	}
         case '~':
@@ -217,6 +223,10 @@ class Scanner {
             }
         case '*':
             nextCh();
+            if(ch == '=') {
+            	nextCh();
+            	return new TokenInfo(MULT_ASSIGN,line);
+            }
             return new TokenInfo(STAR, line);
         case '+':
             nextCh();
@@ -234,6 +244,9 @@ class Scanner {
             if (ch == '-') {
                 nextCh();
                 return new TokenInfo(DEC, line);
+            } else if(ch == '=') {
+            	nextCh();
+            	return new TokenInfo(MINUS_ASSIGN,line);
             } else {
                 return new TokenInfo(MINUS, line);
             }
@@ -242,11 +255,18 @@ class Scanner {
             if (ch == '&') {
                 nextCh();
                 return new TokenInfo(LAND, line);
+            } else if(ch == '=') {
+            	nextCh();
+            	return new TokenInfo(AND_ASSIGN,line);
             } else {
             	return new TokenInfo(BITWISEAND, line);//Added for Problem 2.11
             }
         case '^': 
         	nextCh();
+        	if(ch == '=') {
+            	nextCh();
+            	return new TokenInfo(XOR_ASSIGN,line);
+            }
         	return new TokenInfo(BITWISEXOR, line);
         case '>':
             nextCh();
@@ -254,11 +274,18 @@ class Scanner {
                 nextCh();
                 return new TokenInfo(GE, line);//Added
             } else if(ch == '>') {
-            	nextCh();
+            	nextCh();  
             	if(ch == '>') {
             		nextCh();
+            		if(ch == '=') {
+                    	nextCh();
+                    	return new TokenInfo(BITUNSIGNEDRIGHTSHIFT_ASSIGN,line);
+                    }
             		return new TokenInfo(BITUNSIGNEDRIGHTSHIFT, line); // Added for Problem 2.11
-            	} else {
+            	} else if(ch == '=') {
+                	nextCh();
+                	return new TokenInfo(BITSHIFTRIGHT_ASSIGN,line);
+                } else {
             		return new TokenInfo(BITRIGHTSHIFT, line);	//Added for Problem 2.11
             	}
             } else {
@@ -271,6 +298,10 @@ class Scanner {
                 return new TokenInfo(LE, line);
             } else if(ch == '<') {// Added for Problem 2.11
             	nextCh();
+            	if(ch == '=') {
+                	nextCh();
+                	return new TokenInfo(BITSHIFTLEFT_ASSIGN,line);
+                }
             	return new TokenInfo(BITLEFTSHIFT, line);
             } else {
             	return new TokenInfo(LT, line); //Added for Problem 2.11 
@@ -326,12 +357,6 @@ class Scanner {
         case '.':
             nextCh();
             return new TokenInfo(DOT, line);
-        case '?':
-        	nextCh();
-        	return new TokenInfo(QMARK, line);
-        case ':':
-        	nextCh();
-        	return new TokenInfo(COLON, line);
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':
