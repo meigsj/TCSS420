@@ -654,6 +654,12 @@ public class Parser {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
+        } else if (have(FOR)) {
+        	// TODO 3.25
+        } else if (have(SWITCH)) {
+            // TODO 3.26
+        } else if (have(TRY)) {
+        	// TODO 3.27
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
@@ -669,6 +675,8 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
+        // TODO Remove after stub out is filled
+        return null;
     }
 
     /**
