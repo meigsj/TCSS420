@@ -3,6 +3,7 @@
 package jminusminus;
 
 import java.util.ArrayList;
+
 import static jminusminus.TokenKind.*;
 
 /**
@@ -543,6 +544,8 @@ public class Parser {
      * @return an AST for a memberDecl.
      */
 
+    // TODO test throws -> is type ok for throwable classes?
+    // TODO update JMethodDeclaration to use/analyze throws_types
     private JMember memberDecl(ArrayList<String> mods) {
         int line = scanner.token().line();
         JMember memberDecl = null;
@@ -562,9 +565,10 @@ public class Parser {
                 mustBe(IDENTIFIER);
                 String name = scanner.previousToken().image();
                 ArrayList<JFormalParameter> params = formalParameters();
+                ArrayList<Type> throws_types = getThrowsTypes();
                 JBlock body = have(SEMI) ? null : block();
                 memberDecl = new JMethodDeclaration(line, mods, name, type,
-                        params, body);
+                        params, throws_types, body);
             } else {
                 type = type();
                 if (seeIdentLParen()) {
@@ -572,9 +576,10 @@ public class Parser {
                     mustBe(IDENTIFIER);
                     String name = scanner.previousToken().image();
                     ArrayList<JFormalParameter> params = formalParameters();
+                    ArrayList<Type> throws_types = getThrowsTypes();
                     JBlock body = have(SEMI) ? null : block();
                     memberDecl = new JMethodDeclaration(line, mods, name, type,
-                            params, body);
+                            params, throws_types, body);
                 } else {
                     // Field
                     memberDecl = new JFieldDeclaration(line, mods,
@@ -727,6 +732,16 @@ public class Parser {
         } while (have(COMMA));
         mustBe(RPAREN);
         return parameters;
+    }
+    
+    private ArrayList<Type> getThrowsTypes() {
+    	ArrayList<Type> throws_types = new ArrayList<Type>();
+    	if(have(THROWS)) {
+    		do {
+    			throws_types.add(type());
+    		} while(have(COMMA));
+    	}
+    	return throws_types;
     }
 
     /**

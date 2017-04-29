@@ -23,6 +23,9 @@ class JMethodDeclaration
 
     /** The formal parameters. */
     protected ArrayList<JFormalParameter> params;
+    
+    /** The formal parameters. */
+    protected ArrayList<Type> throw_types;
 
     /** Method body. */
     protected JBlock body;
@@ -42,6 +45,8 @@ class JMethodDeclaration
     /** Is method private. */
     protected boolean isPrivate;
 
+    
+    // TODO Check if both constructors are needed.
     /**
      * Construct an AST node for a method declaration given the
      * line number, method name, return type, formal parameters,
@@ -72,12 +77,50 @@ class JMethodDeclaration
         this.name = name;
         this.returnType = returnType;
         this.params = params;
+        this.throw_types = null;
         this.body = body;
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
         this.isPrivate = mods.contains("private");
     }
 
+    /**
+     * Construct an AST node for a method declaration given the
+     * line number, method name, return type, formal parameters,
+     * and the method body.
+     * 
+     * @param line
+     *                line in which the method declaration occurs
+     *                in the source file.
+     * @param mods
+     *                modifiers.
+     * @param name
+     *                method name.
+     * @param returnType
+     *                return type.
+     * @param params
+     *                the formal parameters.
+     * @param body
+     *                method body.
+     */
+
+    public JMethodDeclaration(int line, ArrayList<String> mods,
+        String name, Type returnType,
+        ArrayList<JFormalParameter> params, ArrayList<Type> throws_types, JBlock body)
+
+    {
+        super(line);
+        this.mods = mods;
+        this.name = name;
+        this.returnType = returnType;
+        this.params = params;
+        this.throw_types = throw_types;
+        this.body = body;
+        this.isAbstract = mods.contains("abstract");
+        this.isStatic = mods.contains("static");
+        this.isPrivate = mods.contains("private");
+    }
+    
     /**
      * Declare this method in the parent (class) context.
      * 
