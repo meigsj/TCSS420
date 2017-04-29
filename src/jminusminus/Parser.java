@@ -678,6 +678,7 @@ public class Parser {
         } else if (have(SWITCH)) {
             JExpression switch_ex = parExpression();
             JStatement switch_body = statement(); // TODO Check for case/defaults?
+            
             // TODO Add return JSwitchStatement();
         	// TODO 3.26
         } else if (have(TRY)) {
@@ -1048,7 +1049,7 @@ public class Parser {
 
     private JExpression assignmentExpression() {
         int line = scanner.token().line();
-        JExpression lhs = conditionalAndExpression();
+        JExpression lhs = ternaryExpression();
         if (have(ASSIGN)) {
             return new JAssignOp(line, lhs, assignmentExpression());
         } else if (have(PLUS_ASSIGN)) {
@@ -1165,7 +1166,7 @@ public class Parser {
             }
         }
         return lhs;
-    }
+    } 
     
     /**
      *  7 

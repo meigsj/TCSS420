@@ -188,6 +188,12 @@ class Scanner {
         case ',':
             nextCh();
             return new TokenInfo(COMMA, line);
+        case '?':
+            nextCh();
+            return new TokenInfo(TERNARY_QUESTION, line);
+        case ':':
+            nextCh();
+            return new TokenInfo(TERNARY_COLON, line);
         case '%'://Added for Problem 2.11
         	nextCh();
         	return new TokenInfo(MOD, line);
