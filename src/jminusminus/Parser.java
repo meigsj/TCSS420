@@ -661,7 +661,7 @@ public class Parser {
         		JExpression collection = expression();
         		// TODO ADD return JEnhancedForLoop();
         	} else {
-	        	mustBe(SEMI);
+	        	mustBe(SEMI); // TODO Do we need to check for ; between expressions?
 	        	JExpression bool_ex = expression();
 	        	mustBe(SEMI);
 	        	JExpression update = expression();
@@ -671,9 +671,17 @@ public class Parser {
         	}
         	// TODO 3.25
         } else if (have(SWITCH)) {
-            // TODO 3.26
+            JExpression switch_ex = parExpression();
+            JStatement switch_body = statement(); // TODO Check for case/defaults?
+            // TODO Add return JSwitchStatement();
+        	// TODO 3.26
         } else if (have(TRY)) {
-        	// TODO 3.27
+        	JStatement try_block = statement();
+        	mustBe(CATCH);
+        	JExpression catch_ex = expression();
+        	JStatement catch_block = statement();
+        	JStatement finally_block = have(FINALLY) ? statement() : null;
+        	// TODO ADD return JTryCatchStatement()
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
