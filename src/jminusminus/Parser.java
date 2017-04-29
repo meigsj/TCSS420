@@ -1100,7 +1100,7 @@ public class Parser {
         JExpression lhs = conditionalAndExpression();//MIGHT BE EQUALITY
         while (more) {
             if (have(BITWISEINOR)) {
-                lhs = new JLogicalOrOp(line, lhs, conditionalAndExpression());//TODO
+                lhs = new JLogicalOrOp(line, lhs, conditionalAndExpression());//TODO 
             }else {
                 more = false;
             }
@@ -1184,7 +1184,7 @@ public class Parser {
         return lhs;
     }
     
-    
+     
     /**
      * Parse an equality expression.
      * 

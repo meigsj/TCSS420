@@ -9,8 +9,7 @@ import static jminusminus.CLConstants.*;
  * arguments: an expression and a reference type.
  */
 
-class JInstanceOfOp
-    extends JExpression {
+class JInstanceOfOp extends JExpression {
 
     /** The expression denoting the value to be tested. */
     private JExpression expr;
