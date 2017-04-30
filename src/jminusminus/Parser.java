@@ -661,17 +661,18 @@ public class Parser {
             return new JWhileStatement(line, test, statement);
         } else if (have(FOR)) {
         	mustBe(LPAREN);
-        	JExpression init = expression();
+        	if (see(SEMI)) return getStandardFor(line, null);
+        	JStatement init;
+        	if (seeLocalVariableDeclaration()) {
+                init = localVariableDeclarationStatement();
+            } else {
+                init = statement();
+            }
         	if (have(TERNARY_COLON)) {
         		JExpression collection = expression();
         		return new JEnhancedForStatement(line, init, collection, statement());
         	} else {
-	        	mustBe(SEMI); // TODO Do we need to check for ; between expressions?
-	        	JExpression bool_ex = expression();
-	        	mustBe(SEMI);
-	        	JExpression update = expression();
-	        	mustBe(RPAREN);
-	        	return new JStandardForStatement(line, init, bool_ex, update, statement());
+	        	return getStandardFor(line, init);
         	}
         	// TODO 3.25
         } else if (have(SWITCH)) {
@@ -707,6 +708,21 @@ public class Parser {
         }
         // TODO Remove after stub out is filled
         return null;
+    }
+    
+    private JStandardForStatement getStandardFor(int line, JStatement init) {
+    	JExpression bool_ex = null;
+    	JExpression update = null;
+    	//mustBe(SEMI); // TODO Do we need to check for ; between expressions? Seems so
+    	if (!see(SEMI)) {
+    		bool_ex = expression();// TODO Needs to be optional, see RETURN
+    	} 
+    	mustBe(SEMI);
+    	if (!see(RPAREN)) {
+    		update = expression();// TODO Needs to be optional, see RETURN
+    	}
+    	mustBe(RPAREN);
+    	return new JStandardForStatement(line, init, bool_ex, update, statement());
     }
 
     /**
@@ -996,7 +1012,7 @@ public class Parser {
      * 
      * @return an AST for a statementExpression.
      */
-//PostIncrement, PreDec
+// TODO add additional statement expressions. i.e. PostIncrement, PreDec
     private JStatement statementExpression() {
         int line = scanner.token().line();
         JExpression expr = expression();
