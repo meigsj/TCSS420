@@ -664,12 +664,13 @@ public class Parser {
         	if (see(SEMI)) return getStandardFor(line, null);
         	JStatement init;
         	if (seeLocalVariableDeclaration()) {
-                init = localVariableDeclarationStatement();
+                init = localVariableDeclarationStatementNoSemi();
             } else {
-                init = statement();
+                init = statementExpression();
             }
         	if (have(TERNARY_COLON)) {
         		JExpression collection = expression();
+        		mustBe(RPAREN);
         		return new JEnhancedForStatement(line, init, collection, statement());
         	} else {
 	        	return getStandardFor(line, init);
@@ -713,7 +714,7 @@ public class Parser {
     private JStandardForStatement getStandardFor(int line, JStatement init) {
     	JExpression bool_ex = null;
     	JExpression update = null;
-    	//mustBe(SEMI); // TODO Do we need to check for ; between expressions? Seems so
+    	mustBe(SEMI); // TODO Do we need to check for ; between expressions? Seems so
     	if (!see(SEMI)) {
     		bool_ex = expression();// TODO Needs to be optional, see RETURN
     	} 
@@ -812,6 +813,13 @@ public class Parser {
         ArrayList<String> mods = new ArrayList<String>();
         ArrayList<JVariableDeclarator> vdecls = variableDeclarators(type());
         mustBe(SEMI);
+        return new JVariableDeclaration(line, mods, vdecls);
+    }
+    
+    private JVariableDeclaration localVariableDeclarationStatementNoSemi() {
+        int line = scanner.token().line();
+        ArrayList<String> mods = new ArrayList<String>();
+        ArrayList<JVariableDeclarator> vdecls = variableDeclarators(type());
         return new JVariableDeclaration(line, mods, vdecls);
     }
 
