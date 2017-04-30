@@ -683,12 +683,16 @@ public class Parser {
             // TODO Add return JSwitchStatement();
         	// TODO 3.26
         } else if (have(TRY)) {
-        	JStatement try_block = statement();
+        	ArrayList<ArrayList<JFormalParameter>> catchParams = new ArrayList<>();
+        	ArrayList<JStatement> catchBlocks = new ArrayList<>();
+        	JStatement tryBlock = statement();
         	mustBe(CATCH);
-        	JExpression catch_ex = expression();
-        	JStatement catch_block = statement();
-        	JStatement finally_block = have(FINALLY) ? statement() : null;
-        	// TODO ADD return JTryCatchStatement()
+        	do {
+	        	catchParams.add(formalParameters());
+	            catchBlocks.add(statement());
+        	} while (see(CATCH));
+        	JStatement finallyBlock = have(FINALLY) ? statement() : null;
+        	return new JTryStatement(line, tryBlock, catchParams, catchBlocks, finallyBlock);
         } else if (have(THROW)) {
         	JExpression throw_ex = expression();
         	// TODO ADD return JThrowStatement();
@@ -750,6 +754,32 @@ public class Parser {
         mustBe(RPAREN);
         return parameters;
     }
+    
+    /**
+     * Parse parameters for a catch block.
+     * 
+     * <pre>
+     *   formalParameters ::= LPAREN 
+     *                          [formalParameter 
+     *                            {BITWISEINOR  formalParameter}] note: BITWISEINOR => BAR |
+     *                        RPAREN
+     * </pre>
+     * 
+     * @return a list of formal parameters.
+     */
+
+    private ArrayList<JFormalParameter> catchParameters() {
+        ArrayList<JFormalParameter> parameters = new ArrayList<JFormalParameter>();
+        mustBe(LPAREN);
+        if (have(RPAREN))
+            return parameters; // ()
+        do {
+            parameters.add(formalParameter());
+        } while (have(BITWISEINOR));
+        mustBe(RPAREN);
+        return parameters;
+    }
+    
     
     private ArrayList<Type> getThrowsTypes() {
     	ArrayList<Type> throws_types = new ArrayList<Type>();
