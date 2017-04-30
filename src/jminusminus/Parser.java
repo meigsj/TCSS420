@@ -664,15 +664,14 @@ public class Parser {
         	JExpression init = expression();
         	if (have(TERNARY_COLON)) {
         		JExpression collection = expression();
-        		// TODO ADD return JEnhancedForLoop();
+        		return new JEnhancedForStatement(line, init, collection, statement());
         	} else {
 	        	mustBe(SEMI); // TODO Do we need to check for ; between expressions?
 	        	JExpression bool_ex = expression();
 	        	mustBe(SEMI);
 	        	JExpression update = expression();
 	        	mustBe(RPAREN);
-	        	JStatement body = statement();
-	        	// TODO ADD return JStandardForLoop();
+	        	return new JStandardForStatement(line, init, bool_ex, update, statement());
         	}
         	// TODO 3.25
         } else if (have(SWITCH)) {
