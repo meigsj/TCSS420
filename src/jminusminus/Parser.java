@@ -683,14 +683,14 @@ public class Parser {
             // TODO Add return JSwitchStatement();
         	// TODO 3.26
         } else if (have(TRY)) {
-        	ArrayList<ArrayList<JFormalParameter>> catchParams = new ArrayList<>();
+        	ArrayList<JFormalParameter> catchParams = new ArrayList<>();
         	ArrayList<JStatement> catchBlocks = new ArrayList<>();
         	JStatement tryBlock = statement();
         	mustBe(CATCH);
         	do {
-	        	catchParams.add(formalParameters());
+	        	catchParams.add(catchParameter());
 	            catchBlocks.add(statement());
-        	} while (see(CATCH));
+        	} while (have(CATCH));
         	JStatement finallyBlock = have(FINALLY) ? statement() : null;
         	return new JTryStatement(line, tryBlock, catchParams, catchBlocks, finallyBlock);
         } else if (have(THROW)) {
@@ -768,16 +768,12 @@ public class Parser {
      * @return a list of formal parameters.
      */
 
-    private ArrayList<JFormalParameter> catchParameters() {
-        ArrayList<JFormalParameter> parameters = new ArrayList<JFormalParameter>();
+    private JFormalParameter catchParameter() {
+        JFormalParameter parameter;
         mustBe(LPAREN);
-        if (have(RPAREN))
-            return parameters; // ()
-        do {
-            parameters.add(formalParameter());
-        } while (have(BITWISEINOR));
+        parameter = formalParameter();
         mustBe(RPAREN);
-        return parameters;
+        return parameter;
     }
     
     

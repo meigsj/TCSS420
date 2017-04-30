@@ -4,11 +4,11 @@ import java.util.*;
 
 class JTryStatement extends JStatement {
 	JStatement tryBlock;
-	ArrayList<ArrayList<JFormalParameter>> catchParams;
+	ArrayList<JFormalParameter> catchParams;
 	ArrayList<JStatement> catchBlocks;
 	JStatement finallyBlock;
 	
-	public JTryStatement(int line, JStatement tryBlock, ArrayList<ArrayList<JFormalParameter>> catchParams,
+	public JTryStatement(int line, JStatement tryBlock, ArrayList<JFormalParameter> catchParams,
 			             ArrayList<JStatement> catchBlocks, JStatement finallyBlock) {
 		super(line);
 		this.tryBlock = tryBlock;
@@ -31,7 +31,7 @@ class JTryStatement extends JStatement {
 
 	@Override
 	public void writeToStdOut(PrettyPrinter p) {
-		 Iterator<ArrayList<JFormalParameter>> paramIt =catchParams.iterator();
+		 Iterator<JFormalParameter> paramIt =catchParams.iterator();
 		 Iterator<JStatement> cblockIt = catchBlocks.iterator();
 		 p.printf("<JTryStatement line=\"%d\">\n", line());
 	     p.indentRight();
@@ -42,17 +42,13 @@ class JTryStatement extends JStatement {
 		 p.printf("</TryBlock>\n");
 
 	     while (paramIt.hasNext() && cblockIt.hasNext()) {
-		     ArrayList<JFormalParameter>plist = paramIt.next();
+		    JFormalParameter param = paramIt.next();
 		     JStatement cblock = cblockIt.next();
-	    	 p.printf("<CatchParameters>\n");
+	    	 p.printf("<CatchParameter>\n");
 		     p.indentRight();
-		     
-		     for(JFormalParameter param : plist) {
-		    	 param.writeToStdOut(p);
-		     }
-		     
+		     param.writeToStdOut(p);
 		     p.indentLeft();
-		     p.printf("</CatchParameters>\n");
+		     p.printf("</CatchParameter>\n");
 		     p.printf("<CatchBlock>\n");
 		     p.indentRight();
 			 cblock.writeToStdOut(p);
