@@ -11,7 +11,7 @@ import static jminusminus.TokenKind.*;
  * LookaheadScanner), parses a Java compilation unit (program file), taking
  * tokens from the LookaheadScanner, and produces an abstract syntax tree (AST)
  * for it.
- */
+ */ 
 
 public class Parser {
 
@@ -751,10 +751,7 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
     }
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
@@ -1185,12 +1182,19 @@ public class Parser {
          
     }
     /**
-     *  11
+     * Parse a conditional-Or expression.
+     * 
+     * <pre>
+     *   logicalORExpression ::= logicalAndExpression // level 11
+     *                                  {LOR logicalAndExpression}
+     * </pre>
+     * 
+     * @return an AST for a conditionalAndExpression.
      */
     private JExpression logicalORExpression() {
         int line = scanner.token().line();
         boolean more = true;
-        JExpression lhs = conditionalAndExpression();//MIGHT BE EQUALITY
+        JExpression lhs = conditionalAndExpression();
         while (more) {
             if (have(LOR)) {
                 lhs = new JLogicalOrOp(line, lhs, conditionalAndExpression());//TODO 
@@ -1209,7 +1213,7 @@ public class Parser {
      *                                  {LAND equalityExpression}
      * </pre>
      * 
-     * @return an AST for a conditionalExpression.
+     * @return an AST for a bitwiseORExpression.
      */
 
     private JExpression conditionalAndExpression() {
@@ -1227,12 +1231,19 @@ public class Parser {
     }
     
     /**
-     *  9
+     * Parse a Bitwise-or expression.
+     * 
+     * <pre>
+     *   bitwiseORExpression ::= bitwiseXORExpression // level 9
+     *                           {BITWISEINOR bitwiseXORExpression}
+     * </pre>
+     * 
+     * @return an AST for a bitwiseORExpression.
      */
     private JExpression bitwiseORExpression() {
         int line = scanner.token().line();
         boolean more = true;
-        JExpression lhs = bitwiseXORExpression();//MIGHT BE EQUALITY
+        JExpression lhs = bitwiseXORExpression();
         while (more) {
             if (have(BITWISEINOR)) {
                 lhs = new JBitwiseOROp(line, lhs, bitwiseXORExpression());//TODO
@@ -1244,7 +1255,14 @@ public class Parser {
     }
     
     /**
-     *  8
+     * Parse a Bitwise-xor expression.
+     * 
+     * <pre>
+     *   bitwiseXORExpression ::= bitwiseAndExpression // level 8
+     *                           {BITWISEXOR bitwiseAndExpression}
+     * </pre>
+     * 
+     * @return an AST for a bitwiseORExpression.
      */
     private JExpression bitwiseXORExpression() {
         int line = scanner.token().line();
@@ -1261,7 +1279,14 @@ public class Parser {
     } 
     
     /**
-     *  7 
+     * Parse a Bitwise-and expression.
+     * 
+     * <pre>
+     *   bitwiseAndExpression ::= equalityExpression // level 7
+     *                           {BITWISEAND equalityExpression}
+     * </pre>
+     * 
+     * @return an AST for a bitwiseORExpression.
      */
     private JExpression bitwiseAndExpression() {
         int line = scanner.token().line();
@@ -1310,7 +1335,7 @@ public class Parser {
      * 
      * <pre>
      *   relationalExpression ::= additiveExpression  // level 5
-     *                              [(GT | LE) additiveExpression 
+     *                              [(GT | LE | GE | LT) shiftExpression 
      *                              | INSTANCEOF referenceType]
      * </pre>
      * 
@@ -1337,9 +1362,15 @@ public class Parser {
 
     
     /**
-     * level 4
+     * Parse a shift expression.
+     * 
+     * <pre>
+     *   shiftExpression ::= additiveExpression  // level 4
+     *                            (BITLEFTSHIFT | BITRIGHTSHIFT | BITUNSIGNEDRIGHTSHIFT) additiveExpression                            
+     * </pre>
+     * 
+     * @return an AST for a shiftExpression.
      */
-    
     private JExpression shiftExpression() {
         int line = scanner.token().line();
         JExpression lhs = additiveExpression();
@@ -1386,7 +1417,10 @@ public class Parser {
      * 
      * <pre>
      *   multiplicativeExpression ::= unaryExpression  // level 2
-     *                                  {STAR unaryExpression}
+     *                               {(STAR unaryExpression
+     *                               | DIV unaryExpression
+     *                               | MOD unaryExpression
+     *                               )}
      * </pre>
      * 
      * @return an AST for a multiplicativeExpression.
@@ -1465,9 +1499,7 @@ public class Parser {
         int line = scanner.token().line();
         if (have(LNOT)) {
             return new JLogicalNotOp(line, unaryExpression());
-        } else if(have(BITCOMP)) {
-        	return new JBitCompOp(line, unaryExpression());
-        } else if (seeCast()) {
+        }  else if (seeCast()) {
             mustBe(LPAREN);
             boolean isBasicType = seeBasicType();
             Type type = type();
