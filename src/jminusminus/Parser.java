@@ -682,7 +682,8 @@ public class Parser {
             ArrayList<JExpression> caseLiterials = new ArrayList<>();
             ArrayList<ArrayList<JStatement>> caseStatements = new ArrayList<>();
             while(have(CASE)) {
-            	caseLiterials.add(literal());         	
+            	caseLiterials.add(literal());
+            	mustBe(TERNARY_COLON);
             	ArrayList<JStatement> singleCaseStatement = new ArrayList<>();
             	while(!see(CASE) && !see(DEFAULT)&& !see(RCURLY)) {
                 	singleCaseStatement.add(statement());
@@ -690,7 +691,8 @@ public class Parser {
             	caseStatements.add(singleCaseStatement);
             }    
             ArrayList<JStatement> defaultStatements = new ArrayList<>();
-            if(have(DEFAULT)) {  	
+            if(have(DEFAULT)) { 
+            	mustBe(TERNARY_COLON);
             	while(!see(RCURLY)) {
             		defaultStatements.add(statement());
             	}
@@ -734,7 +736,10 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
     }
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
