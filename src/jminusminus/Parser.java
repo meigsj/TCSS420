@@ -678,8 +678,27 @@ public class Parser {
         	// TODO 3.25
         } else if (have(SWITCH)) {
             JExpression switch_ex = parExpression();
-            JStatement switch_body = statement(); // TODO Check for case/defaults?
-            
+            mustBe(LCURLY);
+            ArrayList<JExpression> caseLiterials = new ArrayList<>();
+            ArrayList<ArrayList<JStatement>> caseStatements = new ArrayList<>();
+            while(have(CASE)) {
+            	caseLiterials.add(literal());         	
+            	ArrayList<JStatement> singleCaseStatement = new ArrayList<>();
+            	while(!see(CASE) && !see(DEFAULT)&& !see(RCURLY)) {
+                	singleCaseStatement.add(statement());
+            	}
+            	caseStatements.add(singleCaseStatement);
+            }    
+            ArrayList<JStatement> defaultStatements = new ArrayList<>();
+            if(have(DEFAULT)) {  	
+            	while(!see(RCURLY)) {
+            		defaultStatements.add(statement());
+            	}
+            } else {
+            	defaultStatements =  null;
+            }
+            mustBe(RCURLY); 
+            return new JSwitchStatement(line, switch_ex,caseLiterials, caseStatements, defaultStatements);
             // TODO Add return JSwitchStatement();
         	// TODO 3.26
         } else if (have(TRY)) {
