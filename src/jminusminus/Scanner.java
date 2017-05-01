@@ -198,6 +198,10 @@ class Scanner {
             return new TokenInfo(TERNARY_COLON, line);
         case '%'://Added for Problem 2.11
         	nextCh();
+        	if(ch == '=') {
+        		nextCh();
+        		return new TokenInfo(MOD_ASSIGN, line); 
+        	}
         	return new TokenInfo(MOD, line);
         case '|':
         	nextCh();

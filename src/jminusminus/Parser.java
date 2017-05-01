@@ -595,6 +595,25 @@ public class Parser {
      * Parse a block.
      * 
      * <pre>
+     *   	block ::= {blockStatement} 
+     * </pre>
+     * 
+     * @return an AST for a block.
+     */
+    
+    private JBlock switchBlock() {
+    	int line = scanner.token().line();
+    	ArrayList<JStatement> statements = new ArrayList<JStatement>();	
+    	while (!see(RCURLY) && !see(CASE) && !see(DEFAULT)) {
+            statements.add(blockStatement());
+        }
+    	return new JBlock(line, statements);
+    }
+    
+    /**
+     * Parse a block.
+     * 
+     * <pre>
      *   block ::= LCURLY {blockStatement} RCURLY
      * </pre>
      * 
@@ -680,26 +699,22 @@ public class Parser {
             JExpression switch_ex = parExpression();
             mustBe(LCURLY);
             ArrayList<JExpression> caseLiterials = new ArrayList<>();
-            ArrayList<ArrayList<JStatement>> caseStatements = new ArrayList<>();
+            ArrayList<JBlock> caseStatements = new ArrayList<>();
             while(have(CASE)) {
             	caseLiterials.add(literal());
-            	mustBe(TERNARY_COLON);
-            	ArrayList<JStatement> singleCaseStatement = new ArrayList<>();
-            	while(!see(CASE) && !see(DEFAULT)&& !see(RCURLY)) {
-                	singleCaseStatement.add(statement());
-            	}
-            	caseStatements.add(singleCaseStatement);
+            	mustBe(TERNARY_COLON);     	
+            	caseStatements.add(switchBlock());
             }    
-            ArrayList<JStatement> defaultStatements = new ArrayList<>();
+            JBlock defaultBlock = null;
             if(have(DEFAULT)) { 
             	mustBe(TERNARY_COLON);
-            	while(!see(RCURLY)) {
-            		defaultStatements.add(statement());
-            	}
+            	defaultBlock  = switchBlock();
+//            	while(!see(RCURLY)) {
+//            		defaultStatements.add(blockStatement());
+//            	}
             }
             mustBe(RCURLY); 
-            return new JSwitchStatement(line, switch_ex,caseLiterials, caseStatements, defaultStatements);
-            // TODO Add return JSwitchStatement();
+            return new JSwitchStatement(line, switch_ex,caseLiterials, caseStatements, defaultBlock);
         	// TODO 3.26
         } else if (have(TRY)) {
         	ArrayList<JFormalParameter> catchParams = new ArrayList<>();
@@ -736,7 +751,10 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
     }
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
@@ -1122,6 +1140,7 @@ public class Parser {
 
     private JExpression assignmentExpression() {
         int line = scanner.token().line();
+        
         JExpression lhs = ternaryExpression();
         if (have(ASSIGN)) {
             return new JAssignOp(line, lhs, assignmentExpression());
@@ -1173,7 +1192,7 @@ public class Parser {
         boolean more = true;
         JExpression lhs = conditionalAndExpression();//MIGHT BE EQUALITY
         while (more) {
-            if (have(BITWISEINOR)) {
+            if (have(LOR)) {
                 lhs = new JLogicalOrOp(line, lhs, conditionalAndExpression());//TODO 
             }else {
                 more = false;
@@ -1196,10 +1215,10 @@ public class Parser {
     private JExpression conditionalAndExpression() {
         int line = scanner.token().line();
         boolean more = true;
-        JExpression lhs = equalityExpression();
+        JExpression lhs = bitwiseORExpression();
         while (more) {
             if (have(LAND)) {
-                lhs = new JLogicalAndOp(line, lhs, equalityExpression());
+                lhs = new JLogicalAndOp(line, lhs, bitwiseORExpression());
             }else {
                 more = false;
             }
@@ -1399,6 +1418,9 @@ public class Parser {
      * <pre>
      *   unaryExpression ::= INC unaryExpression // level 1
      *                     | MINUS unaryExpression
+     *                     | DEC unaryExpression
+     *                     | BITCOMP unaryExpression
+     *                     | UNARYPLUS unaryExpression
      *                     | simpleUnaryExpression
      * </pre>
      * 
@@ -1409,6 +1431,10 @@ public class Parser {
         int line = scanner.token().line();
         if (have(INC)) {
             return new JPreIncrementOp(line, unaryExpression());
+        } else if(have(DEC)) {
+        	return new JPreDecrementOp(line, unaryExpression());
+        } else if(have(PLUS)){
+        	return new JUnaryPositiveOp(line, unaryExpression());
         } else if (have(MINUS)) {
             return new JNegateOp(line, unaryExpression());
         } else if(have(BITCOMP)) {
@@ -1472,6 +1498,9 @@ public class Parser {
         }
         while (have(DEC)) {
             primaryExpr = new JPostDecrementOp(line, primaryExpr);
+        }
+        while(have(INC)) {
+        	primaryExpr = new JPostIncrementOp(line, primaryExpr);
         }
         return primaryExpr;
     }
