@@ -51,11 +51,11 @@ class Type {
     /** The type java.lang.String. */
     public static Type STRING = typeFor(java.lang.String.class);
     
-    public final static Type DOUBLE = typeFor(double.class);//sssssssssssssssssssssssssssssssss
+    public final static Type DOUBLE = typeFor(double.class);
     
     public static final Type FLOAT = typeFor(float.class);
     
-    public final static Type LONG = typeFor(long.class);//aaaaaaaaaaaaaaaaaaaaaa
+    public final static Type LONG = typeFor(long.class);
 
     /** The type java.lang.Object. */
     public static Type OBJECT = typeFor(java.lang.Object.class);

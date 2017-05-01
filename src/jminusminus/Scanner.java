@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.Hashtable;
+
 import static jminusminus.TokenKind.*;
 
 /**
@@ -112,6 +113,7 @@ class Scanner {
         reserved.put(TRANSIENT.image(), TRANSIENT);
         reserved.put(TRY.image(), TRY);
         reserved.put(VOLATILE.image(), VOLATILE);
+        reserved.put(UNTIL.image(), UNTIL);
         
         // Prime the pump.
         nextCh();

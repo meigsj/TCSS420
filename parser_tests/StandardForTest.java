@@ -1,15 +1,6 @@
 
 public class StandardForTest {
 	
-	
-<<<<<<< HEAD
-	void testMethod() {
-		int i  = 0;
-		switch(i) {
-			case 0: { int p = 2;}
-			case 1: {int p = 2;}
-			default: {int p = 2;}
-=======
 	void standardFor() throws IOException, IllegalArgumentException {
 		for(int i = 0; i < 10; i = i + 1) {
 			System.out.println(i);
@@ -48,7 +39,7 @@ public class StandardForTest {
 	void standardForOnlyInit() throws IOException, IllegalArgumentException {
 		for(int i = 0;;) {
 			System.out.println(i);
->>>>>>> 739932829248be00901cd1cc5808488c268152fa
 		}
 	}
+
 }

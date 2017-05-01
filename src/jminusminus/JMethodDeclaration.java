@@ -25,7 +25,7 @@ class JMethodDeclaration
     protected ArrayList<JFormalParameter> params;
     
     /** The formal parameters. */
-    protected ArrayList<Type> throw_types;
+    protected ArrayList<Type> throws_types;
 
     /** Method body. */
     protected JBlock body;
@@ -77,7 +77,7 @@ class JMethodDeclaration
         this.name = name;
         this.returnType = returnType;
         this.params = params;
-        this.throw_types = null;
+        this.throws_types = null;
         this.body = body;
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
@@ -114,7 +114,7 @@ class JMethodDeclaration
         this.name = name;
         this.returnType = returnType;
         this.params = params;
-        this.throw_types = throw_types;
+        this.throws_types = throws_types;
         this.body = body;
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
@@ -286,6 +286,15 @@ class JMethodDeclaration
                 p.indentLeft();
             }
             p.println("</FormalParameters>");
+        }
+        if (throws_types != null) {
+        	p.println("<ThrowsTypes>");
+            for (Type type : throws_types) {
+                p.indentRight();
+                p.printf("<Throw Type =\"%s\"/>\n", type);
+                p.indentLeft();
+            }
+            p.println("</ThrowsTypes>");
         }
         if (body != null) {
             p.println("<Body>");
