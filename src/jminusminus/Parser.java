@@ -696,6 +696,12 @@ public class Parser {
         } else if (have(THROW)) {
         	JExpression throw_ex = expression();
         	return new JThrowStatement(line, throw_ex);
+        } else if (have(DO)) {
+        	JStatement body = statement();
+        	mustBe(UNTIL);
+        	JExpression condition = expression();
+        	mustBe(SEMI);
+        	return new JDoUntilStatement(line, body, condition);
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);

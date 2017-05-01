@@ -44,7 +44,7 @@ enum TokenKind {
     DEFAULT("default"), DO("do"), DOUBLE("double"), ENUM("enum"), FINAL("final"), FINALLY("finally"),
     FLOAT("float"), FOR("for"), GOTO("goto"), IMPLEMENTS("implements"), INTERFACE("interface"), LONG("long"), 
     NATIVE("native"), SHORT("short"), STRICTFP("strictfp"), SWITCH("switch"), SYNCHRONIZED("synchronized"), 
-    THROW("throw"), THROWS("throws"), TRANSIENT("transient"), TRY("try"), VOLATILE("volatile");
+    THROW("throw"), THROWS("throws"), TRANSIENT("transient"), TRY("try"), VOLATILE("volatile"), UNTIL("until");
 
     /** The token's string representation. */
     private String image;

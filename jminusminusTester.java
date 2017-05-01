@@ -4,13 +4,9 @@ public class jminusminusTester {
 	
 	jminusminusTester testMethod() {
 		int i = 0;
-		try {
+		do {
 			i = i + 1;
-		} catch (Exception e) {
-			i = 0;
-		} catch (Exception e) {
-			i = 0;
-		}
+		} until (i > 10);
 		
 		return new jminusminusTester();
 	}
