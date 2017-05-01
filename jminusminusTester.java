@@ -2,7 +2,7 @@
 public class jminusminusTester {
 	
 	
-	void testMethod() {
+	jminusminusTester testMethod() {
 		int i = 0;
 		try {
 			i = i + 1;
@@ -11,5 +11,8 @@ public class jminusminusTester {
 		} catch (Exception e) {
 			i = 0;
 		}
+		
+		return new jminusminusTester();
 	}
+
 }

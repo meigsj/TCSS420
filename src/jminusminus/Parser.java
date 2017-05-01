@@ -695,7 +695,7 @@ public class Parser {
         	return new JTryStatement(line, tryBlock, catchParams, catchBlocks, finallyBlock);
         } else if (have(THROW)) {
         	JExpression throw_ex = expression();
-        	// TODO ADD return JThrowStatement();
+        	return new JThrowStatement(line, throw_ex);
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
