@@ -1,5 +1,5 @@
 
-public class StandardForTest {
+public class jminusminusTester {
 	
 	
 <<<<<<< HEAD
