@@ -2,7 +2,7 @@
 public class jminusminusTester {
 	
 	
-	jminusminusTester testMethod() {
+	jminusminusTester testMethod() throws IOException {
 		int i = 0;
 		do {
 			i = i + 1;
