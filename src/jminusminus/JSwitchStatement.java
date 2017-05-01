@@ -40,11 +40,9 @@ class JSwitchStatement extends JStatement {
 		 p.printf("<Switch_Statement>\n");
 		 p.indentRight();
 		 mySwitchExpression.writeToStdOut(p);
- 
-		 
+ 	 
 		 if(caseLiterial != null) {
-			 while(caseLiterialIter.hasNext()) {	
-				
+			 while(caseLiterialIter.hasNext()) {				
 				 p.printf("<Case Literial>\n");
 				 caseLiterialIter.next().writeToStdOut(p);
 				 p.indentRight();			 
