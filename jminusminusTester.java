@@ -2,14 +2,14 @@
 public class StandardForTest {
 	
 	
-<<<<<<< HEAD
-	void testMethod() {
+	void switchTestMethod() {
 		int i  = 0;
 		switch(i) {
-			case 0: { int p = 2;}
+			case 0: {int p = 2;}
 			case 1: {int p = 2;}
-			default: {int p = 2;}
-=======
+		}
+	}
+
 	void standardFor() throws IOException, IllegalArgumentException {
 		for(int i = 0; i < 10; i = i + 1) {
 			System.out.println(i);

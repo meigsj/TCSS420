@@ -694,8 +694,6 @@ public class Parser {
             	while(!see(RCURLY)) {
             		defaultStatements.add(statement());
             	}
-            } else {
-            	defaultStatements =  null;
             }
             mustBe(RCURLY); 
             return new JSwitchStatement(line, switch_ex,caseLiterials, caseStatements, defaultStatements);
@@ -736,8 +734,7 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
-        // TODO Remove after stub out is filled
-        return null;
+
     }
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
