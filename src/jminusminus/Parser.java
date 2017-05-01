@@ -736,10 +736,7 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
     }
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
