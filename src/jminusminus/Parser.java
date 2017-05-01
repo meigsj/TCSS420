@@ -664,7 +664,7 @@ public class Parser {
      * 
      * @return an AST for a statement.
      */
-
+     //TODO fix javadoc
     private JStatement statement() {
         int line = scanner.token().line();
         if (see(LCURLY)) {
@@ -756,13 +756,13 @@ public class Parser {
     private JStandardForStatement getStandardFor(int line, JStatement init) {
     	JExpression bool_ex = null;
     	JExpression update = null;
-    	mustBe(SEMI); // TODO Do we need to check for ; between expressions? Seems so
+    	mustBe(SEMI); 
     	if (!see(SEMI)) {
-    		bool_ex = expression();// TODO Needs to be optional, see RETURN
+    		bool_ex = expression();
     	} 
     	mustBe(SEMI);
     	if (!see(RPAREN)) {
-    		update = expression();// TODO Needs to be optional, see RETURN
+    		update = expression();
     	}
     	mustBe(RPAREN);
     	return new JStandardForStatement(line, init, bool_ex, update, statement());
@@ -1460,7 +1460,7 @@ public class Parser {
     private JExpression simpleUnaryExpression() {
         int line = scanner.token().line();
         if (have(LNOT)) {
-            return new JLogicalNotOp(line, unaryExpression());//sssssss
+            return new JLogicalNotOp(line, unaryExpression());
         } else if(have(BITCOMP)) {
         	return new JBitCompOp(line, unaryExpression());
         } else if (seeCast()) {
