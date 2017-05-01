@@ -1,8 +1,6 @@
 
-public class jminusminusTester {
-		
-	
-	void testMethod() {
+public class SwitchStatementTest {
+	void SwitchStatementTestMethod() {
 		int i  = 0;
 		switch(i) {
 			case 0:  
@@ -12,6 +10,5 @@ public class jminusminusTester {
 			default: 
 				i = i + 3;
 		}
-	}
-			
+	}		
 }
