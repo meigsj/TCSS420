@@ -4,6 +4,7 @@ package jminusminus;
 
 import java.util.ArrayList;
 
+
 import static jminusminus.TokenKind.*;
 
 /**
@@ -11,7 +12,7 @@ import static jminusminus.TokenKind.*;
  * LookaheadScanner), parses a Java compilation unit (program file), taking
  * tokens from the LookaheadScanner, and produces an abstract syntax tree (AST)
  * for it.
- */
+ */ 
 
 public class Parser {
 
@@ -273,14 +274,14 @@ public class Parser {
      * Are we looking at a basic type? ie.
      * 
      * <pre>
-     * BOOLEAN | CHAR | INT
+     * BOOLEAN | CHAR | INT | DOUBLE | FLOAT | LONG
      * </pre>
      * 
      * @return true iff we're looking at a basic type; false otherwise.
      */
 
     private boolean seeBasicType() {
-        if (see(BOOLEAN) || see(CHAR) || see(INT)) {
+        if (see(BOOLEAN) || see(CHAR) || see(INT) || see(DOUBLE) || see(FLOAT) || see(LONG)) {
             return true;
         } else {
             return false;
@@ -303,7 +304,7 @@ public class Parser {
             return true;
         } else {
             scanner.recordPosition();
-            if (have(BOOLEAN) || have(CHAR) || have(INT)) {
+            if (have(BOOLEAN) || have(CHAR) || have(INT) || see(DOUBLE) || see(FLOAT) || see(LONG)) {
                 if (have(LBRACK) && see(RBRACK)) {
                     scanner.returnToPosition();
                     return true;
@@ -1073,7 +1074,7 @@ public class Parser {
      * Parse a basic type.
      * 
      * <pre>
-     *   basicType ::= BOOLEAN | CHAR | INT
+     *   basicType ::= BOOLEAN | CHAR | INT | DOUBLE | FLOAT | LONG
      * </pre>
      * 
      * @return an instance of Type.
@@ -1086,6 +1087,12 @@ public class Parser {
             return Type.CHAR;
         } else if (have(INT)) {
             return Type.INT;
+        } else if(have(DOUBLE)) {
+        	return Type.DOUBLE;
+        } else if(have(FLOAT)) {
+        	return Type.FLOAT;
+        } else if(have(LONG)) {
+        	return Type.LONG;
         } else {
             reportParserError("Type sought where %s found", scanner.token()
                     .image());
@@ -1229,12 +1236,19 @@ public class Parser {
          
     }
     /**
-     *  11
+     * Parse a conditional-Or expression.
+     * 
+     * <pre>
+     *   logicalORExpression ::= logicalAndExpression // level 11
+     *                                  {LOR logicalAndExpression}
+     * </pre>
+     * 
+     * @return an AST for a conditionalAndExpression.
      */
     private JExpression logicalORExpression() {
         int line = scanner.token().line();
         boolean more = true;
-        JExpression lhs = conditionalAndExpression();//MIGHT BE EQUALITY
+        JExpression lhs = conditionalAndExpression();
         while (more) {
             if (have(LOR)) {
                 lhs = new JLogicalOrOp(line, lhs, conditionalAndExpression());//TODO 
@@ -1253,7 +1267,7 @@ public class Parser {
      *                                  {LAND equalityExpression}
      * </pre>
      * 
-     * @return an AST for a conditionalExpression.
+     * @return an AST for a bitwiseORExpression.
      */
 
     private JExpression conditionalAndExpression() {
@@ -1271,12 +1285,19 @@ public class Parser {
     }
     
     /**
-     *  9
+     * Parse a Bitwise-or expression.
+     * 
+     * <pre>
+     *   bitwiseORExpression ::= bitwiseXORExpression // level 9
+     *                           {BITWISEINOR bitwiseXORExpression}
+     * </pre>
+     * 
+     * @return an AST for a bitwiseORExpression.
      */
     private JExpression bitwiseORExpression() {
         int line = scanner.token().line();
         boolean more = true;
-        JExpression lhs = bitwiseXORExpression();//MIGHT BE EQUALITY
+        JExpression lhs = bitwiseXORExpression();
         while (more) {
             if (have(BITWISEINOR)) {
                 lhs = new JBitwiseOROp(line, lhs, bitwiseXORExpression());//TODO
@@ -1288,7 +1309,14 @@ public class Parser {
     }
     
     /**
-     *  8
+     * Parse a Bitwise-xor expression.
+     * 
+     * <pre>
+     *   bitwiseXORExpression ::= bitwiseAndExpression // level 8
+     *                           {BITWISEXOR bitwiseAndExpression}
+     * </pre>
+     * 
+     * @return an AST for a bitwiseORExpression.
      */
     private JExpression bitwiseXORExpression() {
         int line = scanner.token().line();
@@ -1305,7 +1333,14 @@ public class Parser {
     } 
     
     /**
-     *  7 
+     * Parse a Bitwise-and expression.
+     * 
+     * <pre>
+     *   bitwiseAndExpression ::= equalityExpression // level 7
+     *                           {BITWISEAND equalityExpression}
+     * </pre>
+     * 
+     * @return an AST for a bitwiseORExpression.
      */
     private JExpression bitwiseAndExpression() {
         int line = scanner.token().line();
@@ -1354,7 +1389,7 @@ public class Parser {
      * 
      * <pre>
      *   relationalExpression ::= additiveExpression  // level 5
-     *                              [(GT | LE) additiveExpression 
+     *                              [(GT | LE | GE | LT) shiftExpression 
      *                              | INSTANCEOF referenceType]
      * </pre>
      * 
@@ -1381,9 +1416,15 @@ public class Parser {
 
     
     /**
-     * level 4
+     * Parse a shift expression.
+     * 
+     * <pre>
+     *   shiftExpression ::= additiveExpression  // level 4
+     *                            (BITLEFTSHIFT | BITRIGHTSHIFT | BITUNSIGNEDRIGHTSHIFT) additiveExpression                            
+     * </pre>
+     * 
+     * @return an AST for a shiftExpression.
      */
-    
     private JExpression shiftExpression() {
         int line = scanner.token().line();
         JExpression lhs = additiveExpression();
@@ -1430,7 +1471,10 @@ public class Parser {
      * 
      * <pre>
      *   multiplicativeExpression ::= unaryExpression  // level 2
-     *                                  {STAR unaryExpression}
+     *                               {(STAR unaryExpression
+     *                               | DIV unaryExpression
+     *                               | MOD unaryExpression
+     *                               )}
      * </pre>
      * 
      * @return an AST for a multiplicativeExpression.
@@ -1483,7 +1527,6 @@ public class Parser {
             return new JNegateOp(line, unaryExpression());
         } else if(have(BITCOMP)) {
         	return new JBitCompOp(line, unaryExpression());
-        	//TODO
         } else {
             return simpleUnaryExpression();
         }
@@ -1509,9 +1552,7 @@ public class Parser {
         int line = scanner.token().line();
         if (have(LNOT)) {
             return new JLogicalNotOp(line, unaryExpression());
-        } else if(have(BITCOMP)) {
-        	return new JBitCompOp(line, unaryExpression());
-        } else if (seeCast()) {
+        }  else if (seeCast()) {
             mustBe(LPAREN);
             boolean isBasicType = seeBasicType();
             Type type = type();
@@ -1528,7 +1569,7 @@ public class Parser {
      * Parse a postfix expression.
      * 
      * <pre>
-     *   postfixExpression ::= primary {selector} {DEC}
+     *   postfixExpression ::= primary {selector} {DEC} {INC}
      * </pre>
      * 
      * @return an AST for a postfixExpression.
@@ -1727,6 +1768,7 @@ public class Parser {
      * <pre>
      *   literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
      *             | TRUE        | FALSE        | NULL
+     *             | LONG_LITERAL | DOUBLE_LITERAL | FLOAT_LITERAL
      * </pre>
      * 
      * @return an AST for a literal.
