@@ -25,7 +25,6 @@ class JEnhancedForStatement extends JForStatement {
 		this.collection = collection;
 	}
 		
-	// TODO Check correctness
 	public JForStatement analyze(Context context) {
 	    init = (JStatement)init.analyze(context);
 	    collection = collection.analyze(context);
@@ -34,7 +33,7 @@ class JEnhancedForStatement extends JForStatement {
 	}
 		
 	public void codegen(CLEmitter output) {
-			
+		// Empty. . .for now!~	
 	}
 		
 	public void writeToStdOut(PrettyPrinter p) {
@@ -69,7 +68,6 @@ class JStandardForStatement extends JForStatement {
 		this.bool_ex = bool_ex;
 	}
 		
-	// TODO Check correctness
 	public JForStatement analyze(Context context) {
 		if (init != null) {
 			init = (JStatement)init.analyze(context);
@@ -86,7 +84,7 @@ class JStandardForStatement extends JForStatement {
 	}
 		
 	public void codegen(CLEmitter output) {
-			
+		// Empty. . . for now!~	
 	}
 		
 	public void writeToStdOut(PrettyPrinter p) {

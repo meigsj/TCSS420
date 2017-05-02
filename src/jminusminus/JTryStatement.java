@@ -18,15 +18,24 @@ class JTryStatement extends JStatement {
 	}
 
 	@Override
-	public JAST analyze(Context arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public JTryStatement analyze(Context context) {
+		tryBlock = (JStatement) tryBlock.analyze(context);
+		
+		for (int i = 0; i < catchBlocks.size(); i++){
+			JStatement temp = (JStatement) catchBlocks.get(i).analyze(context);
+			catchBlocks.set(i, temp);
+		}
+		
+		if (finallyBlock != null) {
+			finallyBlock = (JStatement) finallyBlock.analyze(context);
+		}
+		
+		return this;
 	}
 
 	@Override
 	public void codegen(CLEmitter arg0) {
-		// TODO Auto-generated method stub
-
+        // Empty. . .for now!~
 	}
 
 	@Override

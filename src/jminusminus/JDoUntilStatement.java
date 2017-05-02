@@ -32,7 +32,7 @@ class JDoUntilStatement extends JStatement {
     }
     
     /**
-     * Generate code for the while loop.
+     * Generate code for the do-until loop.
      * 
      * @param output
      *            the code emitter (basically an abstraction for producing the

@@ -9,13 +9,13 @@ public class JThrowStatement extends JStatement {
 
 	@Override
 	public JThrowStatement analyze(Context context) {
-		expr = expr.analyze(context); //TODO check if throwable?
+		expr = expr.analyze(context); 
 		return this;
 	}
 
 	@Override
 	public void codegen(CLEmitter arg0) {
-		// TODO Auto-generated method stub
+		// empty. . .for now!~
 
 	}
 
