@@ -368,7 +368,17 @@ class Scanner {
             return new TokenInfo(STRING_LITERAL, buffer.toString(), line);
         case '.':
             nextCh();
-            return new TokenInfo(DOT, line);
+            if (ch == '.') {
+            	nextCh();
+            	if(ch == '.') {
+            		nextCh();
+            		return new TokenInfo(ARITY, line);
+            	} else {
+            		 reportScannerError("Invalid token: '..' is not a supported operator in j--.");
+            	}
+            } else {
+            	return new TokenInfo(DOT, line);
+            }
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':

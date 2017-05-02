@@ -751,10 +751,6 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
     }
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
@@ -776,9 +772,9 @@ public class Parser {
      * Parse formal parameters.
      * 
      * <pre>
-     *   formalParameters ::= LPAREN 
+     *   formalParameters ::= LPAREN [formalArityParameter] |
      *                          [formalParameter 
-     *                            {COMMA  formalParameter}]
+     *                            {COMMA  formalParameter} [COMMA formalArityParameter]]
      *                        RPAREN
      * </pre>
      * 
@@ -790,9 +786,17 @@ public class Parser {
         mustBe(LPAREN);
         if (have(RPAREN))
             return parameters; // ()
-        do {
-            parameters.add(formalParameter());
-        } while (have(COMMA));
+        if (seeArityParameter()) {
+        	parameters.add(arityParameter());
+        } else {
+	        do {
+	        	if(seeArityParameter()) {
+	         		parameters.add(arityParameter());
+	         		break;
+	         	}
+	            parameters.add(formalParameter());
+	        } while (have(COMMA));    
+        }
         mustBe(RPAREN);
         return parameters;
     }
@@ -845,6 +849,46 @@ public class Parser {
         mustBe(IDENTIFIER);
         String name = scanner.previousToken().image();
         return new JFormalParameter(line, name, type);
+    }
+    
+    /**
+     * Parse a Variable Arity parameter.
+     * 
+     * <pre>
+     *   formalParameter ::= type IDENTIFIER
+     * </pre>
+     * 
+     * @return an AST for a formalParameter.
+     */
+
+    private JFormalParameter arityParameter() {
+        int line = scanner.token().line();
+        Type type = type();
+        mustBe(ARITY);
+        mustBe(IDENTIFIER);
+        String name = scanner.previousToken().image();
+        // TODO add JFormalAirtyParameter
+        return new JFormalArityParameter(line, name, type);
+    }
+    
+    /**
+     * Look ahead and see if next parameter is a Variable arity parameter.
+     */
+    private boolean seeArityParameter() {
+    	scanner.recordPosition();
+    	if (seeBasicType() || seeReferenceType()) {
+    		type();
+    		if (see(ARITY)) {
+    			scanner.returnToPosition();
+    			return true;
+    		} else {
+    			scanner.returnToPosition();
+    			return false;
+    		}
+    	} else {
+    		scanner.returnToPosition();
+			return false;
+    	}
     }
 
     /**
