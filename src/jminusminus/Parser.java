@@ -4,6 +4,7 @@ package jminusminus;
 
 import java.util.ArrayList;
 
+
 import static jminusminus.TokenKind.*;
 
 /**
@@ -273,14 +274,14 @@ public class Parser {
      * Are we looking at a basic type? ie.
      * 
      * <pre>
-     * BOOLEAN | CHAR | INT
+     * BOOLEAN | CHAR | INT | DOUBLE | FLOAT | LONG
      * </pre>
      * 
      * @return true iff we're looking at a basic type; false otherwise.
      */
 
     private boolean seeBasicType() {
-        if (see(BOOLEAN) || see(CHAR) || see(INT)) {
+        if (see(BOOLEAN) || see(CHAR) || see(INT) || see(DOUBLE) || see(FLOAT) || see(LONG)) {
             return true;
         } else {
             return false;
@@ -303,7 +304,7 @@ public class Parser {
             return true;
         } else {
             scanner.recordPosition();
-            if (have(BOOLEAN) || have(CHAR) || have(INT)) {
+            if (have(BOOLEAN) || have(CHAR) || have(INT) || see(DOUBLE) || see(FLOAT) || see(LONG)) {
                 if (have(LBRACK) && see(RBRACK)) {
                     scanner.returnToPosition();
                     return true;
@@ -1026,7 +1027,7 @@ public class Parser {
      * Parse a basic type.
      * 
      * <pre>
-     *   basicType ::= BOOLEAN | CHAR | INT
+     *   basicType ::= BOOLEAN | CHAR | INT | DOUBLE | FLOAT | LONG
      * </pre>
      * 
      * @return an instance of Type.
@@ -1039,6 +1040,12 @@ public class Parser {
             return Type.CHAR;
         } else if (have(INT)) {
             return Type.INT;
+        } else if(have(DOUBLE)) {
+        	return Type.DOUBLE;
+        } else if(have(FLOAT)) {
+        	return Type.FLOAT;
+        } else if(have(LONG)) {
+        	return Type.LONG;
         } else {
             reportParserError("Type sought where %s found", scanner.token()
                     .image());
@@ -1714,6 +1721,7 @@ public class Parser {
      * <pre>
      *   literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
      *             | TRUE        | FALSE        | NULL
+     *             | LONG_LITERAL | DOUBLE_LITERAL | FLOAT_LITERAL
      * </pre>
      * 
      * @return an AST for a literal.
