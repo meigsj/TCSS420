@@ -70,7 +70,13 @@ class JVariable extends JExpression implements JLhs {
             Type definingType = context.definingType();
             Field field = definingType.fieldFor(name);
             if (field == null) {
-                type = Type.ANY;
+                // Assigns Type.ANY to prevent cascading of multiple errors
+            	type = Type.ANY;
+            	// Added 4.2 - Declare the variable in symbol table
+                int offset = ((LocalContext) context).nextOffset();
+                LocalVariableDefn defn = new LocalVariableDefn(Type.ANY, offset);
+                context.addEntry(line, name, defn);
+                ///////////
                 JAST.compilationUnit.reportSemanticError(line,
                         "Cannot find name: " + name);
             } else {
