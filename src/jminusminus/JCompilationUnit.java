@@ -180,8 +180,18 @@ class JCompilationUnit extends JAST {
      */
 
     public JAST analyze(Context context) {
-        for (JAST typeDeclaration : typeDeclarations) {
+        boolean foundPublic = false;
+    	for (JAST typeDeclaration : typeDeclarations) {
             typeDeclaration.analyze(this.context);
+            if (typeDeclaration instanceof JClassDeclaration) {
+            	JClassDeclaration classDec = (JClassDeclaration) typeDeclaration;
+            	if (classDec.isPublic() && !foundPublic) {
+            		foundPublic = true;
+            	} else if(classDec.isPublic() && foundPublic) {
+            		JAST.compilationUnit.reportSemanticError(line,
+                            "Class <%s> cannot be public; Only one public class is allowed per file.", classDec.name());
+            	}
+            }
         }
         return this;
     }

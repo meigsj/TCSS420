@@ -99,6 +99,10 @@ class JClassDeclaration extends JAST implements JTypeDecl {
     public Type thisType() {
         return thisType;
     }
+    
+    public boolean isPublic() {
+    	return mods.contains("public");
+    }
 
     /**
      * The initializations for instance fields (now expressed as assignment
