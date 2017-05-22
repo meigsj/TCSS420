@@ -762,14 +762,14 @@ public class Parser {
     
     private JStandardForStatement getStandardFor(int line, JStatement init) {
     	JExpression bool_ex = null;
-    	JExpression update = null;
+    	JStatement update = null;
     	mustBe(SEMI); 
     	if (!see(SEMI)) {
     		bool_ex = expression();
     	} 
     	mustBe(SEMI);
     	if (!see(RPAREN)) {
-    		update = expression();
+    		update = statementExpression();
     	}
     	mustBe(RPAREN);
     	return new JStandardForStatement(line, init, bool_ex, update, statement());

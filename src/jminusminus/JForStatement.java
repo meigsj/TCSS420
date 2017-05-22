@@ -62,10 +62,10 @@ class JEnhancedForStatement extends JForStatement {
 }
 
 class JStandardForStatement extends JForStatement {
-	private JExpression update;
+	private JStatement update;
 	private JExpression bool_ex;
 
-	public JStandardForStatement(int line, JStatement init, JExpression bool_ex, JExpression update, JStatement body) {
+	public JStandardForStatement(int line, JStatement init, JExpression bool_ex, JStatement update, JStatement body) {
 		super(line, init, body);
 		this.update = update;
 		this.bool_ex = bool_ex;
@@ -76,7 +76,7 @@ class JStandardForStatement extends JForStatement {
 			init = (JStatement) init.analyze(context);
 		}
 		if (update != null) {
-			update = update.analyze(context);
+			update = (JStatement)update.analyze(context);
 		}
 		if (bool_ex != null) {
 			bool_ex = bool_ex.analyze(context);
@@ -90,7 +90,9 @@ class JStandardForStatement extends JForStatement {
 		// Empty. . . for now!~
 
 		// init the var
-		init.codegen(output);
+		if (init != null) {
+		    init.codegen(output);
+		}
 		// Need two labels
 		String test = output.createLabel();
 		String out = output.createLabel();
@@ -98,14 +100,16 @@ class JStandardForStatement extends JForStatement {
 		// Branch out of the loop on the test condition
 		// being false
 		output.addLabel(test);
-		bool_ex.codegen(output, out, false);
-
+		if (bool_ex != null) {
+		    bool_ex.codegen(output, out, false);
+		}
 		// Codegen body
 		body.codegen(output);
 
 		// do inc or dec
-		update.codegen(output);
-		
+		if (update != null) {
+			update.codegen(output);
+		}
 		// Unconditional jump back up to test
 		output.addBranchInstruction(GOTO, test);
 
