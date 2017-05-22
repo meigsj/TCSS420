@@ -73,10 +73,14 @@ class JTernaryExpression extends JExpression {
     
     @Override
     public void codegen(CLEmitter output) {
-        // We should never reach here, i.e., all boolean
-        // (including
-        // identifier) expressions must override this method.
-        System.err.println("Error in code generation");
+    	 String elseLabel = output.createLabel();
+         String endLabel = output.createLabel();
+         condition.codegen(output, elseLabel, false);
+         true_val.codegen(output);
+         output.addBranchInstruction(GOTO, endLabel);
+         output.addLabel(elseLabel);
+         false_val.codegen(output);
+         output.addLabel(endLabel);
     }
 
 }
