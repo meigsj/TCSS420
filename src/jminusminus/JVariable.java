@@ -174,6 +174,24 @@ class JVariable extends JExpression implements JLhs {
                         output.addOneArgInstruction(ILOAD, offset);
                         break;
                     }
+                } else if(type == Type.LONG) {
+                	switch(offset) {
+                	case 0:
+                        output.addNoArgInstruction(LLOAD_0);
+                        break;
+                    case 1:
+                        output.addNoArgInstruction(LLOAD_1);
+                        break;
+                    case 2:
+                        output.addNoArgInstruction(LLOAD_2);
+                        break;
+                    case 3:
+                        output.addNoArgInstruction(LLOAD_3);
+                        break;
+                    default:
+                        output.addOneArgInstruction(LLOAD, offset);
+                        break;
+                	}
                 }
             }
         }
@@ -301,6 +319,24 @@ class JVariable extends JExpression implements JLhs {
                         output.addOneArgInstruction(ISTORE, offset);
                         break;
                     }
+                } else if(type == Type.LONG) {
+                	switch(offset) {
+                	case 0:
+                        output.addNoArgInstruction(LSTORE_0);
+                        break;
+                    case 1:
+                        output.addNoArgInstruction(LSTORE_1);
+                        break;
+                    case 2:
+                        output.addNoArgInstruction(LSTORE_2);
+                        break;
+                    case 3:
+                        output.addNoArgInstruction(LSTORE_3);
+                        break;
+                    default:
+                        output.addOneArgInstruction(LSTORE, offset);
+                        break;
+                	}
                 }
             }
         }

@@ -110,7 +110,12 @@ class JPlusOp extends JBinaryExpression {
                     .analyze(context);
         } else if (lhs.type() == Type.INT && rhs.type() == Type.INT) {
             type = Type.INT;
-        } else {
+        } else if(lhs.type() == Type.LONG && rhs.type() == Type.INT 
+        		||lhs.type() == Type.INT && rhs.type() == Type.LONG
+        		||lhs.type() == Type.LONG && rhs.type() == Type.LONG) {
+        	
+        	type = Type.LONG;
+    	}else {
             type = Type.ANY;
             JAST.compilationUnit.reportSemanticError(line(),
                     "Invalid operand types for +");
@@ -134,6 +139,10 @@ class JPlusOp extends JBinaryExpression {
             lhs.codegen(output);
             rhs.codegen(output);
             output.addNoArgInstruction(IADD);
+        } else if(type == Type.LONG) {
+        	lhs.codegen(output);
+    		rhs.codegen(output);
+            output.addNoArgInstruction(LADD);
         }
     }
 

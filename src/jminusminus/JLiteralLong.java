@@ -51,7 +51,21 @@ class JLiteralLong extends JExpression {
      */
 
     public void codegen(CLEmitter output) {
-        int i = Integer.parseInt(text);
+    	
+    	long l = Long.parseLong(text.substring(0, text.length()-1));
+    	
+    	if(l == 0) {
+    		output.addNoArgInstruction(LCONST_0);
+    	} else if(l == 1) {
+    		output.addNoArgInstruction(LCONST_1);
+    	} else {
+    		output.addLDCInstruction(l);
+    	}
+    	
+        /*
+         * 
+         
+         int i = Integer.parseInt(text);
         switch (i) {
         case 0:
             output.addNoArgInstruction(ICONST_0);
@@ -80,6 +94,10 @@ class JLiteralLong extends JExpression {
                 output.addLDCInstruction(i);
             }
         }
+         
+         
+         * 
+         */
     }
 
     /**
@@ -87,7 +105,7 @@ class JLiteralLong extends JExpression {
      */
 
     public void writeToStdOut(PrettyPrinter p) {
-        p.printf("<JLiteralInt line=\"%d\" type=\"%s\" " + "value=\"%s\"/>\n",
+        p.printf("<JLiteralLong line=\"%d\" type=\"%s\" " + "value=\"%s\"/>\n",
                 line(), ((type == null) ? "" : type.toString()), text);
     }
 
