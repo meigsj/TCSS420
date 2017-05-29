@@ -3,27 +3,16 @@ import java.lang.System;
 public class ternary_codegen_test {
 
 	public static void main(String[] args) {
-		int i = 0;
+		int i = 1;
 		int j = 0;
 		
-		if (i > 0 || j > 0) {
-			System.out.print("Inside first if!");
-		}
+		String result = (i > j) ? "In IF side" : "In ELSE side";
 		
-		do {
-			j = j + 1;
-			System.out.println("j: " + j);
-		} while (j < 10);
+		j=2;
+	    String result2 = (i > j) ? "In IF side" : "In ELSE side";
 		
-		
-		if (i > 0 || j > 0) {
-			System.out.println("Inside second if!");
-		}
-		
-		int x = (i > j) ? 5 : 1;
-		System.out.println(x);
-		System.out.println(i);
-		System.out.println(j);
+		System.out.println(result);
+		System.out.println(result2);
 	}
 
 }
