@@ -1,6 +1,12 @@
 import java.lang.System;
 public class long_test {
 		public static void main(String[] args) {
+			
+			
+			System.out.println("Method param Test");
+			longAsParamTest(2L, 3L);
+			
+			System.out.println("Arithmitic Tests");
 			System.out.println("Addition Tests");
 			LongAndLong_Const_Addition_Test();
 			LongAndInt_Const_Addition_Test();
@@ -9,6 +15,7 @@ public class long_test {
 			LongAndLong_Vars_Addition_Test();
 			LongAndInt_Vars_Addition_Test();
 			IntAndLong_Vars_Addition_Test();
+			
 			System.out.println("");
 			System.out.println("Subtraction Tests");	
 			LongAndLong_Const_Subtraction_Test();
@@ -85,6 +92,10 @@ public class long_test {
 			
 		}
 		
+		public void longAsParamTest (long l, long j) {
+            l = l + j;
+            System.out.println(l);
+        }
 		
 		public static void LongAndLong_Const_Addition_Test() {
 			long l = 3L;
