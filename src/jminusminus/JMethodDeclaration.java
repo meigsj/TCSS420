@@ -196,7 +196,7 @@ class JMethodDeclaration
                 this.context.nextOffset());
             defn.initialize();
             // Added for Problem 4 (Bonus) 2.21
-            if (param.type() == Type.LONG) ((LocalContext) context).nextOffset();
+            if (param.type() == Type.LONG) this.context.nextOffset();
             
             this.context.addEntry(param.line(), param.name(), defn);
         }

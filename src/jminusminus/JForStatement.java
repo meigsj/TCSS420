@@ -65,7 +65,11 @@ class JEnhancedForStatement extends JForStatement {
 class JStandardForStatement extends JForStatement {
 	private JStatement update;
 	private JExpression bool_ex;
-
+    /**
+     * The new context (built in analyze()) represented by this block.
+     */
+    private LocalContext context;
+    
 	public JStandardForStatement(int line, JStatement init, JExpression bool_ex, JStatement update, JStatement body) {
 		super(line, init, body);
 		this.update = update;
@@ -73,22 +77,27 @@ class JStandardForStatement extends JForStatement {
 	}
 
 	public JForStatement analyze(Context context) {
+		// Updated for Problem 4 Exercise 5.7
+		// Creates a new local context to keep the initialization
+		// Statement only in the scope of the for loop
+		this.context = new LocalContext(context);
+		
 		if (init != null) {
-			init = (JStatement) init.analyze(context);
+			init = (JStatement) init.analyze(this.context);
 		}
 		if (update != null) {
-			update = (JStatement)update.analyze(context);
+			update = (JStatement)update.analyze(this.context);
 		}
 		if (bool_ex != null) {
-			bool_ex = bool_ex.analyze(context);
+			bool_ex = bool_ex.analyze(this.context);
 			bool_ex.type().mustMatchExpected(line(), Type.BOOLEAN);
 		}
-		body = (JStatement) body.analyze(context);
+		body = (JStatement) body.analyze(this.context);
 		return this;
 	}
 
 	public void codegen(CLEmitter output) {
-		// Added for problem 4 Exercise 5.7
+		// Added for Problem 4 Exercise 5.7
 
 		// init the var
 		if (init != null) {
