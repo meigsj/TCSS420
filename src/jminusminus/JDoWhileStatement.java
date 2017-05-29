@@ -1,6 +1,6 @@
 package jminusminus;
 
-class JDoUntilStatement extends JStatement {
+public class JDoWhileStatement extends JStatement {
 	
     /** Test expression. */
     private JExpression condition;
@@ -9,7 +9,7 @@ class JDoUntilStatement extends JStatement {
     private JStatement body;
 
 	
-	public JDoUntilStatement (int line, JStatement body, JExpression condition) {
+	public JDoWhileStatement (int line, JStatement body, JExpression condition) {
         super(line);
         this.condition = condition;
         this.body = body;
@@ -24,7 +24,7 @@ class JDoUntilStatement extends JStatement {
      * @return the analyzed (and possibly rewritten) AST subtree.
      */
 
-    public JDoUntilStatement analyze(Context context) {
+    public JDoWhileStatement analyze(Context context) {
         condition = condition.analyze(context);
         condition.type().mustMatchExpected(line(), Type.BOOLEAN);
         body = (JStatement) body.analyze(context);
@@ -48,8 +48,8 @@ class JDoUntilStatement extends JStatement {
         // Codegen body
         body.codegen(output);
 
-        // Branch to top if condition is false, otherwise exit loop
-        condition.codegen(output, top, false);
+        // Branch to top if condition is true, otherwise exit loop
+        condition.codegen(output, top, true);
     }
 	
 	/**
@@ -57,7 +57,7 @@ class JDoUntilStatement extends JStatement {
      */
 
     public void writeToStdOut(PrettyPrinter p) {
-        p.printf("<JDoUntilStatement line=\"%d\">\n", line());
+        p.printf("<JDoWhileStatement line=\"%d\">\n", line());
         p.indentRight();
         p.printf("<Body>\n");
         p.indentRight();
@@ -70,6 +70,6 @@ class JDoUntilStatement extends JStatement {
         p.indentLeft();
         p.printf("</TestExpression>\n");
         p.indentLeft();
-        p.printf("</JDoUntilStatement>\n");
+        p.printf("</JDoWhileStatement>\n");
     }
 }

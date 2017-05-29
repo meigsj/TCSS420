@@ -741,7 +741,7 @@ public class Parser {
         	mustBe(WHILE);
         	JExpression condition = expression();
         	mustBe(SEMI);
-        	return new JDoUntilStatement(line, body, condition);
+        	return new JDoWhileStatement(line, body, condition);
         	
         } else if (have(RETURN)) {
             if (have(SEMI)) {
