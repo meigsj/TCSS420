@@ -174,7 +174,7 @@ class JVariable extends JExpression implements JLhs {
                         output.addOneArgInstruction(ILOAD, offset);
                         break;
                     }
-                } else if(type == Type.LONG) {
+                } else if(type == Type.LONG) { //Added for 5.21
                 	switch(offset) {
                 	case 0:
                         output.addNoArgInstruction(LLOAD_0);
@@ -319,7 +319,7 @@ class JVariable extends JExpression implements JLhs {
                         output.addOneArgInstruction(ISTORE, offset);
                         break;
                     }
-                } else if(type == Type.LONG) {
+                } else if(type == Type.LONG) { //Added for 5.21
                 	switch(offset) {
                 	case 0:
                         output.addNoArgInstruction(LSTORE_0);
