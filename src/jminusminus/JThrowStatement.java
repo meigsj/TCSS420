@@ -1,4 +1,5 @@
 package jminusminus;
+import static jminusminus.CLConstants.*;
 
 public class JThrowStatement extends JStatement {
     private JExpression expr;
@@ -14,9 +15,10 @@ public class JThrowStatement extends JStatement {
 	}
 
 	@Override
-	public void codegen(CLEmitter arg0) {
-		// empty. . .for now!~
-
+	public void codegen(CLEmitter output) {
+		// Added for Part 4 (Bonus) Exercise 5.15
+		expr.codegen(output);
+		output.addNoArgInstruction(ATHROW);
 	}
 
 	@Override

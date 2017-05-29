@@ -36,6 +36,7 @@ class JEnhancedForStatement extends JForStatement {
 
 	public void codegen(CLEmitter output) {
 		// Empty. . .for now!~
+		// Enhanced For loop not part of Problem 4
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {
@@ -87,7 +88,7 @@ class JStandardForStatement extends JForStatement {
 	}
 
 	public void codegen(CLEmitter output) {
-		// Empty. . . for now!~
+		// Added for problem 4 Exercise 5.7
 
 		// init the var
 		if (init != null) {
