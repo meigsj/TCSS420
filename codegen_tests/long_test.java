@@ -4,7 +4,9 @@ public class long_test {
 			
 			
 			System.out.println("Method param Test");
-			longAsParamTest(2L, 3L);
+			long l = 2l;
+			long i  = 3l;
+			longAsParamTest(l, i);
 			
 			System.out.println("Arithmitic Tests");
 			System.out.println("Addition Tests");
@@ -92,7 +94,7 @@ public class long_test {
 			
 		}
 		
-		public void longAsParamTest (long l, long j) {
+		public static void longAsParamTest (long l, long j) {
             l = l + j;
             System.out.println(l);
         }
