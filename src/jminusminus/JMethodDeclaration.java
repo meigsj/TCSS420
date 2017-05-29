@@ -195,6 +195,9 @@ class JMethodDeclaration
             LocalVariableDefn defn = new LocalVariableDefn(param.type(), 
                 this.context.nextOffset());
             defn.initialize();
+            // Added for Problem 4 (Bonus) 2.21
+            if (param.type() == Type.LONG) ((LocalContext) context).nextOffset();
+            
             this.context.addEntry(param.line(), param.name(), defn);
         }
         if (body != null) {

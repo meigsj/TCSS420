@@ -67,6 +67,10 @@ class JVariableDeclaration extends JStatement {
             // declared
             // in preAnalyze())
             int offset = ((LocalContext) context).nextOffset();
+            
+            // Added for Problem 4 (Bonus) 5.21
+            if (decl.type().resolve(context) == Type.LONG) ((LocalContext) context).nextOffset();
+            
             LocalVariableDefn defn = new LocalVariableDefn(decl.type().resolve(
                     context), offset);
 

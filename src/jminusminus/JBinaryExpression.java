@@ -183,9 +183,18 @@ class JSubtractOp extends JBinaryExpression {
     public JExpression analyze(Context context) {
         lhs = (JExpression) lhs.analyze(context);
         rhs = (JExpression) rhs.analyze(context);
-        lhs.type().mustMatchExpected(line(), Type.INT);
-        rhs.type().mustMatchExpected(line(), Type.INT);
-        type = Type.INT;
+        if (lhs.type() == Type.INT && rhs.type() == Type.INT) {
+            type = Type.INT;
+        } else if(lhs.type() == Type.LONG && rhs.type() == Type.INT 
+    		||lhs.type() == Type.INT && rhs.type() == Type.LONG
+    		||lhs.type() == Type.LONG && rhs.type() == Type.LONG) {
+        	type = Type.LONG;
+    	}else {
+            type = Type.ANY;
+            JAST.compilationUnit.reportSemanticError(line(),
+                    "Invalid operand types for -");
+        }     
+
         return this;
     }
 
@@ -199,9 +208,15 @@ class JSubtractOp extends JBinaryExpression {
      */
 
     public void codegen(CLEmitter output) {
-        lhs.codegen(output);
-        rhs.codegen(output);
-        output.addNoArgInstruction(ISUB);
+    	if (type == Type.INT) {
+	    	lhs.codegen(output);
+	        rhs.codegen(output);
+	        output.addNoArgInstruction(ISUB);
+    	} else {
+    		lhs.codegen(output);
+	        rhs.codegen(output);
+	        output.addNoArgInstruction(LSUB);
+    	}
     }
 
 }
